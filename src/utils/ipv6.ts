@@ -2,7 +2,7 @@
  * @Author       : 程哲林
  * @Date         : 2022-03-25 15:56:58
  * @LastEditors  : 程哲林
- * @LastEditTime : 2022-03-25 16:09:43
+ * @LastEditTime : 2022-03-25 17:11:33
  * @FilePath     : /ipv6-ddns/src/utils/ipv6.ts
  * @Description  : 未添加文件描述
  */
@@ -14,12 +14,14 @@ let memo = ''
 
 export async function ipv6 () {
   try {
-    const res = await axios.get('https://api64.ipify.org?format=json')
+    const res = await axios.get('https://test.ipw.cn/api/ip/myip?json')
     const { status, data } = res
 
     if (status < 300) {
-      const ip: string = data.ip
-      if (ip.length > 18 && memo !== ip) {
+      const ip: string = data?.IP || ''
+      const IPVersion = data?.IPVersion || ''
+
+      if (IPVersion === 'IPv6' && memo !== ip) {
         memo = ip;
         return {
           ip,

@@ -2,7 +2,7 @@
  * @Author       : 程哲林
  * @Date         : 2022-03-24 21:20:32
  * @LastEditors  : 程哲林
- * @LastEditTime : 2022-03-25 15:51:29
+ * @LastEditTime : 2022-03-25 16:20:01
  * @FilePath     : /ipv6-ddns/src/core/dnspod.ts
  * @Description  : 未添加文件描述
  */
@@ -65,7 +65,6 @@ interface Record {
   type: string;
   ttl: string;
   value: string;
-  weight?: any;
   mx: string;
   enabled: string;
   status: string;

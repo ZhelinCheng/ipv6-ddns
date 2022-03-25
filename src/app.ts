@@ -2,7 +2,7 @@
  * @Author       : Zhelin Cheng
  * @Date         : 2021-08-31 16:21:44
  * @LastEditors  : 程哲林
- * @LastEditTime : 2022-03-25 16:39:54
+ * @LastEditTime : 2022-03-25 16:56:27
  * @FilePath     : /ipv6-ddns/src/app.ts
  * @Description  : 未添加文件描述
  */
@@ -142,7 +142,11 @@ async function main() {
     } catch (e) {
       logger.error(e);
     }
-  });
+  },
+  null,
+  true,
+  'Asia/Shanghai'
+  );
 }
 
 main()

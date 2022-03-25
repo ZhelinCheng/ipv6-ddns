@@ -2607,7 +2607,7 @@ ini@^1.3.4, ini@~1.3.0:
 
 internal-ip@^7.0.0:
   version "7.0.0"
-  resolved "https://npm.xjjj.co/internal-ip/-/internal-ip-7.0.0.tgz#5b1c6a9d7e188aa73a1b69717daf50c8d8ed774f"
+  resolved "https://registry.npmmirror.com/internal-ip/-/internal-ip-7.0.0.tgz#5b1c6a9d7e188aa73a1b69717daf50c8d8ed774f"
   integrity sha512-qE4TeD4brqC45Vq/+VASeMiS1KRyfBkR6HT2sh9pZVVCzSjPkaCEfKFU+dL0PRv7NHJtvoKN2r82G6wTfzorkw==
   dependencies:
     default-gateway "^6.0.3"

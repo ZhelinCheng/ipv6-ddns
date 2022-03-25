@@ -2,14 +2,14 @@
  * @Author       : Zhelin Cheng
  * @Date         : 2021-08-31 21:13:58
  * @LastEditors  : 程哲林
- * @LastEditTime : 2022-01-06 23:26:31
- * @FilePath     : \hpv_subscribe\ecosystem.config.js
+ * @LastEditTime : 2022-03-25 16:25:57
+ * @FilePath     : /ipv6-ddns/ecosystem.config.js
  * @Description  : 未添加文件描述
  */
 module.exports = {
     apps: [
       {
-        name: 'hpv_subscribe',
+        name: 'ipv6-ddns',
         script: './dist/app.js',
         // eslint-disable-next-line no-undef
         cwd: __dirname,

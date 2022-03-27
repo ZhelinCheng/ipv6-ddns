@@ -2,7 +2,7 @@
  * @Author       : Zhelin Cheng
  * @Date         : 2021-08-31 16:21:44
  * @LastEditors  : 程哲林
- * @LastEditTime : 2022-03-27 23:10:22
+ * @LastEditTime : 2022-03-27 23:13:37
  * @FilePath     : \ipv6-ddns\src\app.ts
  * @Description  : 未添加文件描述
  */
@@ -30,7 +30,7 @@ interface DDNSType {
 async function main() {
   const interval = env.DDNS_INTERVAL || '10';
 
-  console.log('本地IPv6：', ipv6());
+  // console.log('本地IPv6：', ipv6());
 
   logger.info(`检查更新间隔：${interval}分钟`);
 

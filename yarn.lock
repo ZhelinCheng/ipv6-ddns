@@ -821,6 +821,13 @@
   dependencies:
     "@types/node" "*"
 
+"@types/internal-ip@^4.1.0":
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/@types/internal-ip/-/internal-ip-4.1.0.tgz#06292ae0d40a6d7e8697964fe8299f910ec94f92"
+  integrity sha512-zoWN6QciolwK34wt1ZzcKc44Ca5DiTTm/xCqRfRHCbv7OEABETn3JZPuOg2DFgoXIrq6Pzbe2xX9IWwbTkE13Q==
+  dependencies:
+    internal-ip "*"
+
 "@types/istanbul-lib-coverage@*", "@types/istanbul-lib-coverage@^2.0.0", "@types/istanbul-lib-coverage@^2.0.1":
   version "2.0.4"
   resolved "https://registry.npmmirror.com/@types/istanbul-lib-coverage/-/istanbul-lib-coverage-2.0.4.tgz#8467d4b3c087805d63580480890791277ce35c44"
@@ -2605,7 +2612,7 @@ ini@^1.3.4, ini@~1.3.0:
   resolved "https://registry.npmmirror.com/ini/-/ini-1.3.8.tgz#a29da425b48806f34767a4efce397269af28432c"
   integrity sha512-JV/yugV2uzW5iMRSiZAyDtQd+nxtUnjeLt0acNdw98kKLrvuRVyB80tsREOE7yvGVgalhZ6RNXCmEHkUKBKxew==
 
-internal-ip@^7.0.0:
+internal-ip@*, internal-ip@^7.0.0:
   version "7.0.0"
   resolved "https://registry.npmmirror.com/internal-ip/-/internal-ip-7.0.0.tgz#5b1c6a9d7e188aa73a1b69717daf50c8d8ed774f"
   integrity sha512-qE4TeD4brqC45Vq/+VASeMiS1KRyfBkR6HT2sh9pZVVCzSjPkaCEfKFU+dL0PRv7NHJtvoKN2r82G6wTfzorkw==

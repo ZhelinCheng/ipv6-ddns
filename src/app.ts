@@ -2,8 +2,8 @@
  * @Author       : Zhelin Cheng
  * @Date         : 2021-08-31 16:21:44
  * @LastEditors  : 程哲林
- * @LastEditTime : 2022-03-25 16:56:27
- * @FilePath     : /ipv6-ddns/src/app.ts
+ * @LastEditTime : 2022-03-27 23:10:22
+ * @FilePath     : \ipv6-ddns\src\app.ts
  * @Description  : 未添加文件描述
  */
 
@@ -29,6 +29,8 @@ interface DDNSType {
 
 async function main() {
   const interval = env.DDNS_INTERVAL || '10';
+
+  console.log('本地IPv6：', ipv6());
 
   logger.info(`检查更新间隔：${interval}分钟`);
 
@@ -56,96 +58,95 @@ async function main() {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const fn = require(`./core/${server}`);
 
-  new CronJob(`0 0/${interval} * * * *`, async () => {
-    try {
-      const {
-        ip,
-        prefix
-      } = await ipv6()
+  new CronJob(
+    `0 0/${interval} * * * *`,
+    async () => {
+      try {
+        const { ip, prefix } = ipv6();
 
-      if (!ip) {
-        return logger.info(`ip未更新或未获取到ipv6地址，暂不更新`)
-      }
+        if (!ip) {
+          return logger.info(`ip未更新或未获取到ipv6地址，暂不更新`);
+        }
 
-      logger.info(`IPV6前缀：${prefix}`)
+        logger.info(`IPV6前缀：${prefix}`);
 
-      const recordList: Array<{
-        name: string;
-        type: string;
-        id: string;
-      }> = await fn.inquiry(domain);
+        const recordList: Array<{
+          name: string;
+          type: string;
+          id: string;
+        }> = await fn.inquiry(domain);
 
-      const ipv4Names: string[] = [];
-      const ipv6Names: string[] = [];
-      const recordIdMap: {
-        [key: string]: {
-          [key: string]: string;
+        const ipv4Names: string[] = [];
+        const ipv6Names: string[] = [];
+        const recordIdMap: {
+          [key: string]: {
+            [key: string]: string;
+          };
+        } = {
+          ipv4: {},
+          ipv6: {},
         };
-      } = {
-        ipv4: {},
-        ipv6: {},
-      };
 
-      recordList.forEach(({ name, type, id }) => {
-        if (type === 'AAAA') {
-          ipv6Names.push(name);
-          recordIdMap.ipv6[name] = id;
-        } else {
-          ipv4Names.push(name);
-          recordIdMap.ipv4[name] = id;
-        }
-      });
-
-      const updateDdns: DDNSType[] = ddns.map((item) => {
-        const { type, name } = item;
-        // IPV6更新
-        if (type === 'AAAA') {
-          return {
-            ...item,
-            value: `${prefix}:${item.value}`,
-            record_id: recordIdMap.ipv6[name],
-            create: !ipv6Names.includes(name),
-          };
-        } else {
-          return {
-            ...item,
-            record_id: recordIdMap.ipv4[name],
-            create: !ipv4Names.includes(name),
-          };
-        }
-      });
-
-      await mapLimit(
-        updateDdns,
-        2,
-        async function ({ value, type, name, create, record_id }: DDNSType) {
-          if (create) {
-            return fn.create({
-              sub_domain: name,
-              domain,
-              record_type: type,
-              value,
-            });
+        recordList.forEach(({ name, type, id }) => {
+          if (type === 'AAAA') {
+            ipv6Names.push(name);
+            recordIdMap.ipv6[name] = id;
           } else {
-            return fn.update({
-              sub_domain: name,
-              record_id,
-              domain,
-              record_type: type,
-              value,
-            });
+            ipv4Names.push(name);
+            recordIdMap.ipv4[name] = id;
           }
-        },
-      );
+        });
 
-      logger.info(`更新完成`);
-    } catch (e) {
-      logger.error(e);
-    }
-  },
-  null,
-  true,
-  'Asia/Shanghai'
+        const updateDdns: DDNSType[] = ddns.map((item) => {
+          const { type, name } = item;
+          // IPV6更新
+          if (type === 'AAAA') {
+            return {
+              ...item,
+              value: `${prefix}:${item.value}`,
+              record_id: recordIdMap.ipv6[name],
+              create: !ipv6Names.includes(name),
+            };
+          } else {
+            return {
+              ...item,
+              record_id: recordIdMap.ipv4[name],
+              create: !ipv4Names.includes(name),
+            };
+          }
+        });
+
+        await mapLimit(
+          updateDdns,
+          2,
+          async function ({ value, type, name, create, record_id }: DDNSType) {
+            if (create) {
+              return fn.create({
+                sub_domain: name,
+                domain,
+                record_type: type,
+                value,
+              });
+            } else {
+              return fn.update({
+                sub_domain: name,
+                record_id,
+                domain,
+                record_type: type,
+                value,
+              });
+            }
+          },
+        );
+
+        logger.info(`更新完成`);
+      } catch (e) {
+        logger.error(e);
+      }
+    },
+    null,
+    true,
+    'Asia/Shanghai',
   );
 }
 

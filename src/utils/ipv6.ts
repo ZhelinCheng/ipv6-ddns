@@ -2,26 +2,21 @@
  * @Author       : 程哲林
  * @Date         : 2022-03-25 15:56:58
  * @LastEditors  : 程哲林
- * @LastEditTime : 2022-10-20 22:01:14
+ * @LastEditTime : 2022-10-22 16:48:21
  * @FilePath     : /ipv6-ddns/src/utils/ipv6.ts
  * @Description  : 未添加文件描述
  */
 
 import { logger } from './logger';
-import { exec } from 'child_process'
+import axios from 'axios';
 
 let memo = '';
 
+// https://v6.ipv6-test.com/api/myip.php
+
 const address = async (): Promise<string> => {
-  return new Promise((resolve, reject) => {
-    exec('curl 6.ipw.cn', (err, data) => {
-      if (err) {
-        reject(err)
-      } else {
-        resolve(data)
-      }
-    })
-  })
+  const { status, data } = await axios.get('https://v6.ipv6-test.com/api/myip.php')
+  return status === 200 ? data : ''
 };
 
 export async function ipv6() {
